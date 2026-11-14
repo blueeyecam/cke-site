@@ -1,0 +1,250 @@
+<title>CK Enterprises</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="CK Enterprises builds and runs software products and AI systems. ProfilePro, SEO Zion, SlopDox and AI search visibility for local business.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  color-scheme:dark;
+  --ink:#050506; --panel:#0e0e11; --panel2:#15151a; --line:#26262d;
+  --txt:#f1ede6; --muted:#9a958c; --ember:#ff6a1f; --ember2:#ffb067; --glow:rgba(255,106,31,.35);
+  --display:"Sora",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--ink);color:var(--txt);font-family:var(--display);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.label{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ember2)}
+h1,h2,h3{margin:0;text-wrap:balance;letter-spacing:-.02em;line-height:1.08}
+
+/* header */
+header{position:fixed;top:0;left:0;right:0;z-index:20;padding-top:env(safe-area-inset-top,0px);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:linear-gradient(rgba(5,5,6,.75),rgba(5,5,6,0))}
+header .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:64px}
+.mark{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:700;letter-spacing:.04em}
+.mark i{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--txt);position:relative;display:block}
+.mark i::before{content:"";position:absolute;inset:-5px 5px;border:1.5px solid var(--ember);border-radius:50%;transform:rotate(28deg)}
+.mark i::after{content:"";position:absolute;left:50%;top:50%;width:6px;height:6px;margin:-3px;border-radius:50%;background:var(--ember);box-shadow:0 0 12px var(--ember)}
+nav{display:flex;gap:6px;align-items:center}
+nav a{text-decoration:none;font-size:14px;padding:12px 12px;color:var(--muted)}
+nav a:hover{color:var(--txt)}
+nav a.pill{color:var(--ink);background:var(--txt);border-radius:999px;padding:10px 18px;font-weight:600}
+@media(max-width:560px){nav a:not(.pill){display:none}}
+
+/* hero */
+.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden;isolation:isolate}
+.hero .bg{position:absolute;inset:-4%;z-index:-3;background:url(assets/hero.png) 68% 40%/cover no-repeat;animation:drift 26s ease-in-out infinite alternate;will-change:transform}
+@keyframes drift{from{transform:scale(1.02) translate3d(-1%,0,0)}to{transform:scale(1.12) translate3d(1.5%,-1.5%,0)}}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;z-index:-2}
+.hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(5,5,6,.92) 0%,rgba(5,5,6,.55) 38%,rgba(5,5,6,0) 70%),linear-gradient(0deg,var(--ink) 0%,rgba(5,5,6,0) 34%)}
+.hero .wrap{width:100%;padding-block:120px 72px}
+.hero h1{font-size:clamp(40px,7.4vw,92px);font-weight:700;max-width:11ch;margin:18px 0 22px}
+.hero h1 em{font-style:normal;color:transparent;background:linear-gradient(100deg,var(--ember2),var(--ember) 60%);-webkit-background-clip:text;background-clip:text}
+.hero p{max-width:46ch;font-size:clamp(16px,1.6vw,19px);color:#cfcac1;margin:0 0 30px;font-weight:300}
+.cta{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:0 26px;border-radius:999px;text-decoration:none;font-weight:600;font-size:16px;border:1px solid var(--line);background:rgba(14,14,17,.6);cursor:pointer;color:var(--txt);font-family:inherit}
+.btn.hot{background:var(--ember);border-color:var(--ember);color:#160700;box-shadow:0 0 34px var(--glow)}
+.btn:hover{transform:translateY(-1px)}
+.ticker{position:absolute;left:0;right:0;bottom:0;border-top:1px solid var(--line);overflow:hidden;background:rgba(5,5,6,.6)}
+.ticker div{display:flex;gap:48px;white-space:nowrap;width:max-content;padding:10px 0;font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);animation:slide 38s linear infinite}
+.ticker b{color:var(--ember);font-weight:500}
+@keyframes slide{to{transform:translateX(-50%)}}
+@media(max-width:700px){
+  .hero .bg{background-position:74% 22%;background-size:auto 62%;background-color:var(--ink)}
+  .hero::after{background:linear-gradient(0deg,var(--ink) 30%,rgba(5,5,6,.2) 62%,rgba(5,5,6,.35) 100%)}
+  .hero .wrap{padding-block:120px 84px}
+}
+
+/* sections */
+section{padding-block:96px}
+.head{display:grid;gap:14px;margin-bottom:44px;max-width:640px}
+.head h2{font-size:clamp(30px,4.4vw,52px);font-weight:600}
+.head p{margin:0;color:var(--muted)}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+
+/* ventures */
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+@media(max-width:760px){.grid{grid-template-columns:1fr}}
+.v{position:relative;display:flex;flex-direction:column;gap:14px;min-width:0;padding:28px;border:1px solid var(--line);border-radius:22px;background:linear-gradient(160deg,var(--panel2),var(--panel));text-decoration:none;overflow:hidden;transition:border-color .3s,transform .3s}
+.v::before{content:"";position:absolute;width:320px;height:320px;left:var(--mx,110%);top:var(--my,-40%);transform:translate(-50%,-50%);background:radial-gradient(circle,var(--glow),transparent 62%);opacity:.0;transition:opacity .3s;pointer-events:none}
+.v:hover{border-color:#5a3a26;transform:translateY(-3px)}
+.v:hover::before{opacity:1}
+.v .top{display:flex;justify-content:space-between;align-items:center;gap:12px;font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.dot{display:inline-flex;align-items:center;gap:8px}
+.dot::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--ember);box-shadow:0 0 0 0 var(--glow);animation:pulse 2.2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 10px rgba(255,106,31,0)}100%{box-shadow:0 0 0 0 rgba(255,106,31,0)}}
+.v h3{font-size:30px;font-weight:600}
+.v p{margin:0;color:#c5c0b7;font-weight:300}
+.v .go{margin-top:auto;padding-top:10px;font-family:var(--mono);font-size:13px;color:var(--ember2)}
+
+/* how */
+.how{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--line)}
+.how div{padding:28px 24px 8px 0;border-right:1px solid var(--line);min-width:0}
+.how div+div{padding-left:24px}
+.how div:last-child{border-right:0}
+.how span{font-family:var(--mono);color:var(--ember);font-size:13px}
+.how h3{font-size:22px;margin:10px 0 8px;font-weight:600}
+.how p{margin:0;color:var(--muted);font-size:15px}
+@media(max-width:760px){.how{grid-template-columns:1fr}.how div,.how div+div{border-right:0;border-bottom:1px solid var(--line);padding:24px 0}}
+
+/* signal */
+.signal{border:1px solid var(--line);border-radius:22px;background:var(--panel);overflow:hidden}
+.sbar{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 16px;padding:14px 20px;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.sbar .dot{color:var(--txt)}
+.row{display:grid;grid-template-columns:86px minmax(0,1fr) auto;gap:6px 18px;align-items:start;padding:20px;border-bottom:1px solid var(--line);text-decoration:none;opacity:0;transform:translateX(-14px);transition:opacity .6s,transform .6s,background .2s}
+.row.in{opacity:1;transform:none}
+.row:last-child{border-bottom:0}
+.row:hover{background:var(--panel2)}
+.row time{font-family:var(--mono);font-size:12px;color:var(--ember2);padding-top:4px}
+.row h3{font-size:18px;font-weight:600;line-height:1.3;letter-spacing:-.01em}
+.row p{margin:6px 0 0;color:var(--muted);font-size:14.5px}
+.row .arrow{font-family:var(--mono);color:var(--muted);padding-top:2px}
+@media(max-width:560px){.row{grid-template-columns:minmax(0,1fr) auto}.row time{grid-column:1/-1;padding:0}}
+
+/* card */
+.cardsec{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px;align-items:center}
+@media(max-width:820px){.cardsec{grid-template-columns:1fr}}
+.stage{perspective:1200px;display:flex;justify-content:center;padding-block:10px}
+.card{position:relative;width:min(100%,440px);aspect-ratio:1.75/1;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.2,.7,.2,1);cursor:pointer;border:0;padding:0;background:none;color:inherit;font:inherit;text-align:left;animation:float 7s ease-in-out infinite}
+@keyframes float{50%{translate:0 -8px}}
+.card.flip{transform:rotateY(180deg)!important}
+.face{position:absolute;inset:0;border-radius:20px;padding:clamp(18px,5vw,28px);backface-visibility:hidden;-webkit-backface-visibility:hidden;border:1px solid #3a2a20;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;background:radial-gradient(120% 140% at 100% 0%,#3b1c0b 0%,#131316 46%,#08080a 100%);box-shadow:0 30px 80px rgba(0,0,0,.7),0 0 60px rgba(255,106,31,.12)}
+.face::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.14) 48%,transparent 62%);transform:translateX(var(--sheen,-60%));transition:transform .4s;pointer-events:none}
+.face.art{background:#050506 url(assets/card.png) right center/cover no-repeat}
+.back{transform:rotateY(180deg)}
+.face .mark{font-size:15px}
+.face h3{font-size:clamp(20px,5.4vw,28px);font-weight:600}
+.face small{display:block;font-family:var(--mono);font-size:clamp(10px,2.7vw,12px);letter-spacing:.12em;text-transform:uppercase;color:var(--ember2);margin-top:4px}
+.face .contact{font-family:var(--mono);font-size:clamp(11px,3vw,13.5px);line-height:1.7;color:#d8d3ca;overflow-wrap:anywhere}
+.back ul{list-style:none;margin:0;padding:0;font-size:clamp(13px,3.6vw,16px);display:grid;gap:4px}
+.back li{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid #2a2a30;padding-bottom:4px}
+.back li span{font-family:var(--mono);font-size:.78em;color:var(--muted)}
+.hint{text-align:center;font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:14px;letter-spacing:.1em;text-transform:uppercase}
+.mailbox{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:26px}
+.addr{font-family:var(--mono);font-size:clamp(14px,3.9vw,17px);padding:14px 18px;border:1px dashed #4a3a30;border-radius:14px;user-select:all;-webkit-user-select:all;overflow-wrap:anywhere;min-width:0}
+
+footer{border-top:1px solid var(--line);padding-block:34px calc(34px + env(safe-area-inset-bottom,0px));color:var(--muted);font-size:13.5px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:10px 28px;justify-content:space-between}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.reveal,.row{opacity:1;transform:none}}
+</style>
+
+<header><div class="wrap">
+  <a class="mark" href="#top"><i></i>CKE</a>
+  <nav><a href="#ventures">Ventures</a><a href="#signal">Signal</a><a class="pill" href="#card">My card</a></nav>
+</div></header>
+
+<main id="top">
+<div class="hero">
+  <div class="bg"></div>
+  <canvas id="field" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <span class="label">CK Enterprises · Software and AI systems</span>
+    <h1>Built once. <em>Runs itself.</em></h1>
+    <p>We build software products and the AI agents that operate them. One founder, a working team of agents, products live in the market.</p>
+    <div class="cta"><a class="btn hot" href="#card">Get my card</a><a class="btn" href="#ventures">See what we run ↓</a></div>
+  </div>
+  <div class="ticker" aria-hidden="true"><div id="tick"></div></div>
+</div>
+
+<section id="ventures"><div class="wrap">
+  <div class="head reveal"><span class="label">01 / Ventures</span><h2>One company. Several products.</h2><p>Each one is a real product you can open today. CK Enterprises is the company behind all of them.</p></div>
+  <div class="grid">
+    <a class="v reveal" href="https://profilepro.online" target="_blank" rel="noopener"><div class="top"><span class="dot">Live</span><span>Consumer</span></div><h3>ProfilePro</h3><p>AI-assisted studio portraits for men, made from your own photos. For dating, work and social profiles.</p><span class="go">profilepro.online ↗</span></a>
+    <a class="v reveal" href="https://seozion.com" target="_blank" rel="noopener"><div class="top"><span class="dot">Live</span><span>Small business</span></div><h3>SEO Zion</h3><p>Checks a small-business website, finds what holds it back on Google, Maps and AI search, and gives a plain-English fix plan.</p><span class="go">seozion.com ↗</span></a>
+    <a class="v reveal" href="https://slopdox.com" target="_blank" rel="noopener"><div class="top"><span class="dot">Live</span><span>Website owners</span></div><h3>SlopDox</h3><p>Every service your website runs on in one ledger: what it costs, when it renews, and a warning before anything lapses.</p><span class="go">slopdox.com ↗</span></a>
+    <a class="v reveal" href="#card"><div class="top"><span class="dot">Pilot</span><span>Local trades</span></div><h3>AI Visibility</h3><p>People now ask AI who to call. We check what it says about a local business and fix what is missing.</p><span class="go">Ask for a free check →</span></a>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="head reveal"><span class="label">02 / How we work</span><h2>Agents do the work. A person signs it off.</h2></div>
+  <div class="how reveal">
+    <div><span>A</span><h3>Research</h3><p>Agents read the market every day and write up what matters.</p></div>
+    <div><span>B</span><h3>Build</h3><p>Agents write, test and ship the software under review.</p></div>
+    <div><span>C</span><h3>Run</h3><p>Agents watch the products around the clock. The founder approves anything that leaves the building.</p></div>
+  </div>
+</div></section>
+
+<section id="signal"><div class="wrap">
+  <div class="head reveal"><span class="label">03 / Signal</span><h2>What we are watching today.</h2><p>The AI and agent news our systems picked up in the last day, and why each one is on our list.</p></div>
+  <div class="signal reveal"><div class="sbar"><span class="dot">Refreshed daily</span><span id="stamp"></span></div><div id="feed"></div></div>
+</div></section>
+
+<section id="card"><div class="wrap cardsec">
+  <div class="reveal">
+    <div class="head" style="margin-bottom:0"><span class="label">04 / Card</span><h2>Here's my card.</h2><p>Whichever product we were talking about, this is where to reach me. Every message comes straight to the founder.</p></div>
+    <div class="mailbox"><span class="addr" id="addr">admin@camkarlenterprises.com</span><button class="btn hot" id="copy" type="button">Copy email</button></div>
+  </div>
+  <div class="reveal">
+    <div class="stage"><button class="card" id="bcard" type="button" aria-label="Business card. Tap to turn over.">
+      <div class="face art"><span class="mark"><i></i>CK ENTERPRISES</span><div><h3>Cam</h3><small>Founder</small></div><div class="contact">admin@camkarlenterprises.com<br>camkarlenterprises.com</div></div>
+      <div class="face back"><span class="label">What we do</span><ul><li>AI automation <span>agents that run the work</span></li><li>AI search visibility <span>get found in ChatGPT</span></li><li>SEO <span>audits and fixes</span></li><li>Web apps <span>built and run</span></li></ul><div class="contact">CKE LLC · Sherman Oaks, CA</div></div>
+    </button></div>
+    <p class="hint">Tap the card to turn it over</p>
+  </div>
+</div></section>
+</main>
+
+<footer><div class="wrap"><span>© 2026 CKE LLC. CK Enterprises.</span><span>15442 Ventura Blvd., Ste 201-3003, Sherman Oaks, CA 91403</span></div></footer>
+
+<script>
+// Signal feed. On the live site a daily job rewrites this list.
+const SIGNAL={updated:"13 Nov 2026",source:"Hacker News",items:[
+ {t:"12 Nov",h:"Gemini 4 Hydrogen",n:"New Google model. We test every major release on our own agent jobs before anything changes.",u:"https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-hydrogen/"},
+ {t:"12 Nov",h:"Edge0-145B: frontier AI capabilities on your own computer",n:"On our list because local models could cut what it costs to run agents.",u:"https://edge0.ai/blog/introducing-edge0-145b-frontier-ai-capabilities-on-your-own-computer"},
+ {t:"12 Nov",h:"AgentRun: open-source, self-improving managed agents",n:"Agent tooling. We compare each new framework with how our own team is run.",u:"https://github.com/Parcha-ai/agentrun/blob/main/README.md"},
+ {t:"12 Nov",h:"Chinese frontier AI models carry the fingerprint of export-controlled GPUs",n:"Supply and policy news that can change which models are available to build on.",u:"https://unemploymentlabs.com/checkpoint-forensics"},
+ {t:"12 Nov",h:"Why you should expect an AI crash",n:"The Economist's view. We build products that earn their keep with or without the hype.",u:"https://www.economist.com/leaders/2026/11/12/why-you-should-expect-an-ai-crash"}
+]};
+const feed=document.getElementById('feed');
+document.getElementById('stamp').textContent=SIGNAL.updated+' · source: '+SIGNAL.source;
+SIGNAL.items.forEach(i=>{const a=document.createElement('a');a.className='row';a.href=i.u;a.target='_blank';a.rel='noopener';
+  const tm=document.createElement('time');tm.textContent=i.t;const d=document.createElement('div');
+  const h=document.createElement('h3');h.textContent=i.h;const p=document.createElement('p');p.textContent=i.n;d.append(h,p);
+  const ar=document.createElement('span');ar.className='arrow';ar.textContent='↗';a.append(tm,d,ar);feed.append(a);});
+const tk=['ProfilePro <b>live</b>','SEO Zion <b>live</b>','SlopDox <b>live</b>','AI Visibility <b>pilot</b>','Agents on shift <b>24/7</b>','Signal refreshed <b>'+SIGNAL.updated+'</b>'];
+document.getElementById('tick').innerHTML=tk.map(s=>'<span>'+s+'</span>').join('').repeat(4);
+
+// Reveal on scroll
+const io=new IntersectionObserver(es=>es.forEach((e)=>{if(e.isIntersecting){const k=[...e.target.parentNode.children].indexOf(e.target);setTimeout(()=>e.target.classList.add('in'),Math.min(k,6)*90);io.unobserve(e.target);}}),{threshold:.12});
+document.querySelectorAll('.reveal,.row').forEach(el=>io.observe(el));
+
+// Venture card glow follows the pointer
+document.querySelectorAll('.v').forEach(v=>v.addEventListener('pointermove',e=>{const r=v.getBoundingClientRect();v.style.setProperty('--mx',(e.clientX-r.left)+'px');v.style.setProperty('--my',(e.clientY-r.top)+'px');}));
+
+// Business card: tilt with the pointer, tap to turn over
+const card=document.getElementById('bcard');
+card.addEventListener('click',()=>card.classList.toggle('flip'));
+card.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse'||card.classList.contains('flip'))return;const r=card.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;card.style.transition='transform .08s';card.style.transform=`rotateY(${x*22}deg) rotateX(${-y*18}deg)`;card.style.setProperty('--sheen',(x*160)+'%');});
+card.addEventListener('pointerleave',()=>{card.style.transition='';card.style.transform='';card.style.setProperty('--sheen','-60%');});
+
+// Copy email
+const cp=document.getElementById('copy');
+cp.addEventListener('click',()=>{const t=document.getElementById('addr');const done=()=>{cp.textContent='Copied';setTimeout(()=>cp.textContent='Copy email',1800);};
+  const sel=()=>{const r=document.createRange();r.selectNodeContents(t);const s=getSelection();s.removeAllRanges();s.addRange(r);cp.textContent='Selected. Now copy';};
+  try{navigator.clipboard.writeText(t.textContent).then(done,sel);}catch(_){sel();}});
+
+// Hero field: a slow 3D swarm of agent nodes with links, drawn over the picture
+(()=>{const c=document.getElementById('field'),x=c.getContext('2d');if(!x)return;
+  const still=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let W,H,R,cx,cy,px=0,py=0,ex=0,ey=0,vis=true;
+  const N=innerWidth<700?46:84,P=[];
+  for(let i=0;i<N;i++){const u=Math.random()*2-1,th=Math.random()*6.283,r=.45+Math.random()*.75,s=Math.sqrt(1-u*u);
+    P.push({x:r*s*Math.cos(th),y:r*u*.62,z:r*s*Math.sin(th),sp:.4+Math.random()*.9,ph:Math.random()*6.283});}
+  function size(){const b=c.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2);W=b.width;H=b.height;c.width=W*d;c.height=H*d;x.setTransform(d,0,0,d,0,0);
+    const m=W<700;cx=W*(m?.6:.68);cy=H*(m?.3:.46);R=Math.min(W,H)*(m?.46:.52);}
+  function draw(t){if(!vis){requestAnimationFrame(draw);return;}
+    ex+=(px-ex)*.04;ey+=(py-ey)*.04;x.clearRect(0,0,W,H);
+    const a=t*.00012+ex*.5,ca=Math.cos(a),sa=Math.sin(a),tb=.32+ey*.3,cb=Math.cos(tb),sb=Math.sin(tb),Q=[];
+    for(const p of P){const bob=Math.sin(t*.0006*p.sp+p.ph)*.04;let X=p.x*ca-p.z*sa,Z=p.x*sa+p.z*ca,Y=p.y+bob;const Y2=Y*cb-Z*sb;Z=Y*sb+Z*cb;
+      const k=1/(1.9+Z);Q.push({x:cx+X*R*k*1.9,y:cy+Y2*R*k*1.9,k,tw:.5+.5*Math.sin(t*.002*p.sp+p.ph)});}
+    x.lineWidth=1;
+    for(let i=0;i<N;i++)for(let j=i+1;j<N;j++){const A=Q[i],B=Q[j],dx=A.x-B.x,dy=A.y-B.y,d=dx*dx+dy*dy,m=R*.3;if(d<m*m){x.strokeStyle=`rgba(255,150,80,${(1-Math.sqrt(d)/m)*.22*Math.min(A.k,B.k)*2})`;x.beginPath();x.moveTo(A.x,A.y);x.lineTo(B.x,B.y);x.stroke();}}
+    for(const q of Q){const r=q.k*3.2;x.fillStyle=`rgba(255,${150+q.tw*70|0},${90+q.tw*60|0},${.35+q.k*.7})`;x.shadowColor='#ff6a1f';x.shadowBlur=10*q.tw;x.beginPath();x.arc(q.x,q.y,r,0,6.283);x.fill();}
+    x.shadowBlur=0;if(!still)requestAnimationFrame(draw);}
+  addEventListener('resize',size);
+  addEventListener('pointermove',e=>{px=e.clientX/innerWidth-.5;py=e.clientY/innerHeight-.5;});
+  new IntersectionObserver(e=>vis=e[0].isIntersecting).observe(c);
+  size();requestAnimationFrame(draw);})();
+</script>
