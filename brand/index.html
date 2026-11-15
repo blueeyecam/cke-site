@@ -1,13 +1,10 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex">
 <title>CKE logo files</title>
 <style>body{margin:0;background:#050506;color:#f1ede6;font:16px/1.5 system-ui,sans-serif;padding:24px max(16px,env(safe-area-inset-left,0px))}
-main{max-width:900px;margin:0 auto;display:grid;gap:28px}h1{margin:0;font-size:24px}section{display:grid;gap:10px}img{width:100%;height:auto;border:1px solid #26262d;border-radius:8px}
-.sq img{max-width:360px}button{justify-self:start;background:#ff6a1f;color:#050506;border:0;border-radius:999px;padding:12px 22px;font-weight:700;font-size:15px;cursor:pointer}p{margin:0;color:#9a958c}</style></head>
-<body><main><h1>CKE logo files</h1><p>Click a button to save the PNG to your computer, then upload it to Facebook.</p>
-<section class="sq"><h2>Profile picture (1024 × 1024)</h2><img src="cke-profile.svg" alt="CKE profile picture"><button data-f="cke-profile" data-w="1024" data-h="1024">Download profile PNG</button></section>
-<section><h2>Facebook cover (1640 × 624)</h2><img src="cke-cover.svg" alt="CKE cover"><button data-f="cke-cover" data-w="1640" data-h="624">Download cover PNG</button></section>
-<section><h2>Logo, wide (1200 × 400)</h2><img src="cke-logo-horizontal.svg" alt="CKE wide logo"><button data-f="cke-logo-horizontal" data-w="1200" data-h="400">Download wide PNG</button></section>
-</main><script>
-document.querySelectorAll('button').forEach(b=>b.onclick=()=>{const i=new Image();i.onload=()=>{const c=document.createElement('canvas');c.width=b.dataset.w;c.height=b.dataset.h;
-c.getContext('2d').drawImage(i,0,0,c.width,c.height);c.toBlob(bl=>{const a=document.createElement('a');a.href=URL.createObjectURL(bl);a.download=b.dataset.f+'.png';a.click();},'image/png');};i.src=b.dataset.f+'.svg';});
-</script></body></html>
+main{max-width:900px;margin:0 auto;display:grid;gap:28px}h1{margin:0;font-size:24px}h2{margin:0;font-size:18px}section{display:grid;gap:10px}img{width:100%;height:auto;border:1px solid #26262d;border-radius:8px}
+.sq img{max-width:420px}a.b{justify-self:start;background:#ff6a1f;color:#050506;border-radius:999px;padding:12px 22px;font-weight:700;text-decoration:none}p{margin:0;color:#9a958c}</style></head>
+<body><main><h1>CKE logo files</h1><p>Click a button to save the picture, then upload it to Facebook.</p>
+<section class="sq"><h2>Logo, version 1 (profile picture)</h2><img src="cke-logo-1.png" alt="CKE logo version 1"><a class="b" href="cke-logo-1.png" download>Download version 1</a></section>
+<section class="sq"><h2>Logo, version 2 (profile picture)</h2><img src="cke-logo-2.png" alt="CKE logo version 2"><a class="b" href="cke-logo-2.png" download>Download version 2</a></section>
+<section><h2>Facebook cover</h2><img src="cke-cover.png" alt="CKE cover"><a class="b" href="cke-cover.png" download>Download cover</a></section>
+</main></body></html>
