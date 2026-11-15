@@ -1,0 +1,192 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Standard Maine rock well</title>
+<style>
+:root{--bg:#eef2f4;--fg:#17222b;--card:#fff;--line:#d5dde3;--acc:#b8501c;--mute:#566673;--sky1:#cfe6f5;--sky2:#eef5f8}
+body{margin:0;background:transparent;color:var(--fg);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;padding-block:2px 4px;padding-left:0;padding-right:0}
+main{max-width:860px;margin:0 auto}
+h1{font:700 25px/1.15 system-ui,sans-serif;margin:0 0 4px;text-wrap:balance}
+.sub{color:var(--mute);margin:0 0 12px;font-size:15px}
+#stage{position:relative;height:480px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:linear-gradient(var(--sky1),var(--sky2) 45%)}
+#stage canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
+.mk{position:absolute;left:0;top:0;width:22px;height:22px;margin:-11px 0 0 -11px;border-radius:50%;background:#b8501c;color:#fff;font:700 12px/22px system-ui,sans-serif;text-align:center;box-shadow:0 0 0 2px #fff;pointer-events:none;will-change:transform}
+.ly{position:absolute;left:0;top:0;font:600 12px/1.2 system-ui,sans-serif;color:#fff;background:rgba(20,30,38,.62);padding:3px 7px;border-radius:5px;pointer-events:none;white-space:nowrap;transform-origin:0 0;will-change:transform}
+.bar{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+button{font:600 14px system-ui,sans-serif;padding:9px 13px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--fg);cursor:pointer}
+button[aria-pressed="true"]{border-color:var(--acc);color:var(--acc)}
+ol.lg{list-style:none;margin:14px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px 18px}
+ol.lg li{display:flex;gap:9px;align-items:flex-start;font-size:15px;min-width:0}
+ol.lg b{flex:none;width:22px;height:22px;border-radius:50%;background:#b8501c;color:#fff;font:700 12px/22px system-ui,sans-serif;text-align:center}
+.n{font-size:14px;color:var(--mute);margin-top:18px}
+#err{color:#b00020;font-size:14px;margin-top:8px;white-space:pre-wrap}
+</style>
+</head><body><main>
+<p class="sub">Drag to turn it. Pinch or scroll to zoom.</p>
+<div id="stage"></div>
+<div class="bar">
+<button id="bSeal" aria-pressed="true">Seal around casing: on</button>
+<button id="bNum" aria-pressed="true">Numbers: on</button>
+<button id="bReset">Reset view</button>
+</div>
+<div id="err"></div>
+<ol class="lg" id="lg"></ol>
+<p class="n">Standard Maine rock well, typical only, not to scale. The rock hole can run hundreds of feet. Maine well rules (10-144 CMR 232) call for at least 20 feet of casing, standing at least 8 inches above ground, with 10 feet into bedrock recommended. Rules vary by state. Ask your licensed driller.</p>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+var errBox=document.getElementById('err');
+function fail(m){errBox.textContent='The 3D view did not load on this device: '+m;}
+window.addEventListener('error',function(e){fail(e.message||'error');});
+try{
+if(!window.THREE){fail('3D library blocked');return;}
+var stage=document.getElementById('stage');
+var renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+renderer.setClearColor(0x000000,0);
+stage.appendChild(renderer.domElement);
+var scene=new THREE.Scene();
+var camera=new THREE.PerspectiveCamera(32,1,0.5,400);
+scene.add(new THREE.HemisphereLight(0xffffff,0x8a8070,0.85));
+var sun=new THREE.DirectionalLight(0xffffff,0.75);sun.position.set(12,20,25);scene.add(sun);
+
+function tex(base,spots,n,rx,ry,smin,smax){
+  var c=document.createElement('canvas');c.width=c.height=256;var g=c.getContext('2d');
+  g.fillStyle=base;g.fillRect(0,0,256,256);
+  for(var i=0;i<n;i++){g.fillStyle=spots[i%spots.length];g.beginPath();
+    var r=smin+Math.random()*(smax-smin);
+    g.ellipse(Math.random()*256,Math.random()*256,r,r*(0.5+Math.random()*0.6),Math.random()*3,0,6.3);g.fill();}
+  var t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(rx,ry);return t;
+}
+function lam(color,opt){var o=opt||{};o.color=color;return new THREE.MeshLambertMaterial(o);}
+function add(geo,mat,x,y,z){var m=new THREE.Mesh(geo,mat);m.position.set(x,y,z);scene.add(m);return m;}
+function box(w,h,d,mat,x,y,z){return add(new THREE.BoxGeometry(w,h,d),mat,x,y,z);}
+function cyl(r,h,mat,x,y,z,r2){return add(new THREE.CylinderGeometry(r2||r,r,h,28),mat,x,y,z);}
+// back half of a tube, open ends, seen from the front
+function shell(r,h,mat,x,y,z){mat.side=THREE.DoubleSide;
+  return add(new THREE.CylinderGeometry(r,r,h,32,1,true,Math.PI/2,Math.PI),mat,x,y,z);}
+
+var W=18,D=6,WX=3,WZ=0.75;
+// ground layers (cut face at z=0)
+var mSoil=new THREE.MeshLambertMaterial({map:tex('#b98a5a',['#8f6539','#d2a877','#a27445','#6f5132'],260,3,1,3,9)});
+var mWet=new THREE.MeshLambertMaterial({map:tex('#6f9fb5',['#8f6539','#a9c9d8','#55839a','#b59467'],240,3,0.6,3,9)});
+var mRock=new THREE.MeshLambertMaterial({map:tex('#8b9096',['#7b8087','#9a9fa5','#84898f'],90,2,2.6,10,34)});
+box(W,0.18,D,lam(0x5f9a45),0,0.09,-D/2);
+box(W,7,D,mSoil,0,-3.5,-D/2);
+box(W,3,D,mWet,0,-8.5,-D/2);
+box(W,24,D,mRock,0,-22,-D/2);
+// cracks in the rock that carry water
+var mCrack=new THREE.MeshBasicMaterial({color:0x3aa0e0});
+[[2,-20,0.5,13],[1,-27,-0.35,15],[-4,-15,0.6,8],[4.5,-30.5,0.25,8]].forEach(function(f){
+  var m=box(f[3],0.11,0.03,mCrack,f[0],f[1],0.02);m.rotation.z=f[2];});
+
+// house
+box(5,3.2,4,lam(0xd9c7a6),-6,1.78,-2.6);
+var tri=new THREE.Shape();tri.moveTo(-2.9,0);tri.lineTo(2.9,0);tri.lineTo(0,1.8);tri.lineTo(-2.9,0);
+add(new THREE.ExtrudeGeometry(tri,{depth:4.4,bevelEnabled:false}),lam(0x6b4a3a),-6,3.36,-4.8);
+box(0.9,1.0,0.06,lam(0x9cc3dc),-7.2,2.0,-0.58);box(0.9,1.0,0.06,lam(0x9cc3dc),-4.8,2.0,-0.58);
+box(0.8,1.7,0.06,lam(0x7a4b2b),-6,1.05,-0.58);
+// basement shown on the cut face, with the pressure tank
+box(4.4,5.2,0.05,lam(0xd8d5cd),-6,-3.0,0.02);
+box(4.4,0.22,1.5,lam(0x9c9a94),-6,-5.61,0.75);
+cyl(0.6,2.6,lam(0x2f6fb5),-6,-4.2,WZ);
+add(new THREE.SphereGeometry(0.6,24,12,0,6.3,0,1.57),lam(0x2f6fb5),-6,-2.9,WZ).scale.y=0.5;
+
+// the well
+var seal=shell(0.74,20,lam(0xe3ddcc),WX,-10,WZ);
+shell(0.5,21,lam(0x8d969e),WX,-9.5,WZ);                 // steel casing
+shell(0.6,0.7,lam(0x26292c),WX,-19.9,WZ);               // drive shoe
+shell(0.5,14.8,lam(0x5a5e63),WX,-23.6,WZ);              // open rock hole
+cyl(0.62,0.3,lam(0x6f777e),WX,1.15,WZ);                 // cap
+cyl(0.1,20.9,lam(0x23272b),WX,-14.85,WZ);               // drop pipe
+cyl(0.045,27,lam(0xf2c200),WX+0.25,-12.5,WZ);           // wire in the well
+cyl(0.03,26.8,lam(0xf1ead8),WX-0.23,-12.4,WZ+0.12);     // safety rope
+box(0.62,0.46,0.42,lam(0xc89b3c),WX-0.31,-4.5,WZ);      // pitless adapter
+var line=cyl(0.13,7.9,lam(0x1f4e8c),-1.45,-4.5,WZ);line.rotation.z=Math.PI/2;  // water line to house
+cyl(0.05,2.9,lam(0xf2c200),WX-0.6,-0.55,WZ);            // power down outside the casing
+var pw=cyl(0.05,6.2,lam(0xf2c200),-0.7,-2,WZ);pw.rotation.z=Math.PI/2;       // power to house
+cyl(0.3,1.5,lam(0x9aa3ab),WX,-28.75,WZ);                // pump motor
+cyl(0.31,0.35,lam(0x2c2f33),WX,-27.82,WZ);              // intake
+cyl(0.3,1.9,lam(0xc9d1d7),WX,-26.7,WZ);                 // pump end
+cyl(0.17,0.45,lam(0xc89b3c),WX,-25.52,WZ);              // check valve
+var ta=add(new THREE.SphereGeometry(0.42,20,14),lam(0x1b1b1b),WX,-24,WZ);ta.scale.y=1.7; // torque arrestor
+var water=cyl(0.45,22,new THREE.MeshLambertMaterial({color:0x3f9be0,transparent:true,opacity:0.42,depthWrite:false}),WX,-20,WZ);
+water.renderOrder=2;
+
+// numbered markers and layer names
+var parts=[
+[1,'Well cap, at least 8 in above ground',WX+0.95,1.2],
+[2,'Steel casing, at least 20 ft, about 10 ft into rock',WX+0.95,-12.5],
+[3,'Fill around the casing: cement grout, bentonite or ledge cuttings',WX+1.05,-1.6],
+[4,'Pitless adapter: water leaves the well here, below the frost',WX-1.0,-3.6],
+[5,'Water line to the house',-1.2,-5.3],
+[6,'Power wire to the pump',-1.2,-1.2],
+[7,'Drive shoe, seated in solid rock',WX+1.0,-19.9],
+[8,'Open rock hole, no casing needed',WX+0.95,-25],
+[9,'Cracks in the rock that bring the water',-2.2,-21.3],
+[10,'Water level in the well',WX-0.95,-9],
+[11,'Drop pipe: carries water up from the pump',WX-0.95,-18],
+[12,'Torque arrestor: holds the pump steady',WX+0.95,-24],
+[13,'Submersible pump',WX+0.95,-27.6],
+[14,'Pressure tank in the basement',-7.3,-4.2]];
+var layers=[['Soil and gravel',5.2,-3.4],['Wet ground',5.2,-8.5],['Bedrock',-7.6,-13]];
+var lg=document.getElementById('lg'),marks=[],showNum=true;
+parts.forEach(function(p){
+  var d=document.createElement('div');d.className='mk';d.textContent=p[0];stage.appendChild(d);
+  marks.push({el:d,v:new THREE.Vector3(p[2],p[3],WZ+0.3),id:p[0]});
+  var li=document.createElement('li');li.id='li'+p[0];
+  var b=document.createElement('b');b.textContent=p[0];var s=document.createElement('span');s.textContent=p[1];
+  li.appendChild(b);li.appendChild(s);lg.appendChild(li);});
+layers.forEach(function(p){var d=document.createElement('div');d.className='ly';d.textContent=p[0];stage.appendChild(d);
+  marks.push({el:d,v:new THREE.Vector3(p[1],p[2],0.05),id:0});});
+
+// camera control
+var target=new THREE.Vector3(-0.5,-14.5,0),az=0,el=0.1,zoom=1,baseDist=60,touched=false,w=1,h=1;
+function resize(){w=stage.clientWidth;h=stage.clientHeight;renderer.setSize(w,h,false);
+  camera.aspect=w/h;camera.updateProjectionMatrix();
+  var t=Math.tan(camera.fov*Math.PI/360);
+  baseDist=Math.max(20/t,(11/t)/camera.aspect)*1.06;}
+window.addEventListener('resize',resize);resize();
+var cv=renderer.domElement,pts={},lastPinch=0;
+function touch(){touched=true;}
+cv.addEventListener('pointerdown',function(e){touch();pts[e.pointerId]={x:e.clientX,y:e.clientY};
+  try{cv.setPointerCapture(e.pointerId);}catch(x){} lastPinch=0;});
+cv.addEventListener('pointermove',function(e){var p=pts[e.pointerId];if(!p)return;
+  var ids=Object.keys(pts);
+  if(ids.length===1){az-=(e.clientX-p.x)*0.006;el+=(e.clientY-p.y)*0.005;}
+  p.x=e.clientX;p.y=e.clientY;
+  if(ids.length===2){var a=pts[ids[0]],b=pts[ids[1]],d=Math.hypot(a.x-b.x,a.y-b.y);
+    if(lastPinch>0&&d>0)zoom*=lastPinch/d;lastPinch=d;}
+  clamp();});
+function up(e){delete pts[e.pointerId];lastPinch=0;}
+cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
+cv.addEventListener('wheel',function(e){e.preventDefault();touch();zoom*=e.deltaY>0?1.1:0.9;clamp();},{passive:false});
+function clamp(){az=Math.max(-1.25,Math.min(1.25,az));el=Math.max(-0.15,Math.min(0.9,el));zoom=Math.max(0.3,Math.min(1.6,zoom));}
+
+var bSeal=document.getElementById('bSeal'),bNum=document.getElementById('bNum');
+bSeal.onclick=function(){seal.visible=!seal.visible;bSeal.setAttribute('aria-pressed',seal.visible);
+  bSeal.textContent='Seal around casing: '+(seal.visible?'on':'off');
+  document.getElementById('li3').hidden=!seal.visible;};
+bNum.onclick=function(){showNum=!showNum;bNum.setAttribute('aria-pressed',showNum);bNum.textContent='Numbers: '+(showNum?'on':'off');};
+document.getElementById('bReset').onclick=function(){az=0;el=0.1;zoom=1;touched=false;t0=performance.now();};
+
+var t0=performance.now(),v=new THREE.Vector3();
+function frame(now){
+  requestAnimationFrame(frame);
+  var a=touched?az:0.45*Math.sin((now-t0)/2600);
+  var d=baseDist*zoom,ce=Math.cos(el);
+  camera.position.set(target.x+d*Math.sin(a)*ce,target.y+d*Math.sin(el),target.z+d*Math.cos(a)*ce);
+  camera.lookAt(target);
+  renderer.render(scene,camera);
+  for(var i=0;i<marks.length;i++){var m=marks[i];
+    var on=showNum&&!(m.id===3&&!seal.visible);
+    if(!on){m.el.style.display='none';continue;}
+    v.copy(m.v).project(camera);
+    if(v.z>1||Math.abs(v.x)>1.05||Math.abs(v.y)>1.05){m.el.style.display='none';continue;}
+    m.el.style.display='block';
+    m.el.style.transform='translate('+((v.x+1)/2*w).toFixed(1)+'px,'+((1-v.y)/2*h).toFixed(1)+'px)';
+  }
+}
+requestAnimationFrame(frame);
+}catch(e){fail(e.message);}
+})();
+</script>
+</body></html>
